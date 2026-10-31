@@ -1,5 +1,6 @@
 ---
 import type { Game } from '../types/game';
+import { formatRatingOutOfFive } from '../lib/ratings';
 import Tag from './Tag.astro';
 import ArrowRight from '../assets/icons/arrow-right.svg';
 
@@ -22,20 +23,21 @@ const { game } = Astro.props;
         <div class="relative z-10">
             <h3 class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-blue-400 transition-colors" data-testid="game-title">{game.title}</h3>
 
-            {(game.category?.name || game.publisher?.name) && (
-                <div class="flex gap-2 mb-3">
-                    {game.category?.name && (
-                        <Tag color="blue" data-testid="game-category">
-                            {game.category.name}
-                        </Tag>
-                    )}
-                    {game.publisher?.name && (
-                        <Tag color="purple" data-testid="game-publisher">
-                            {game.publisher.name}
-                        </Tag>
-                    )}
-                </div>
-            )}
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+                {game.category?.name && (
+                    <Tag color="blue" data-testid="game-category">
+                        {game.category.name}
+                    </Tag>
+                )}
+                {game.publisher?.name && (
+                    <Tag color="purple" data-testid="game-publisher">
+                        {game.publisher.name}
+                    </Tag>
+                )}
+                <span class="bg-blue-500/20 text-blue-400 text-sm px-3 py-1 rounded-full" data-testid="game-rating">
+                    {formatRatingOutOfFive(game.starRating)}
+                </span>
+            </div>
 
             <p class="text-slate-400 mb-4 text-sm line-clamp-2" data-testid="game-description">{game.description}</p>
 
